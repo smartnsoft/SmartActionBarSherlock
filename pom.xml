@@ -4,9 +4,9 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>org.sonatype.oss</groupId>
-		<artifactId>oss-parent</artifactId>
-		<version>7</version>
+		<groupId>com.smartnsoft</groupId>
+		<artifactId>distribution-thirdparty</artifactId>
+		<version>1.0</version>
 	</parent>
 
 	<groupId>com.actionbarsherlock</groupId>
@@ -21,13 +21,12 @@
 
 	<modules>
 		<module>library</module>
-		<module>samples</module>
 	</modules>
 
 	<scm>
-		<url>https://github.com/JakeWharton/ActionBarSherlock/</url>
-		<connection>scm:git:git://github.com/JakeWharton/ActionBarSherlock.git</connection>
-		<developerConnection>scm:git:git@github.com:JakeWharton/ActionBarSherlock.git</developerConnection>
+		<connection>scm:git:https://github.com/smartnsoft/SmartActionBarSherlock.git</connection>
+		<developerConnection>scm:git:git@github.com:smartnsoft/SmartActionBarSherlock.git</developerConnection>
+		<tag>HEAD</tag>
 	</scm>
 
 	<developers>
@@ -41,6 +40,16 @@
 				<role>developer</role>
 			</roles>
 		</developer>
+		<developer>
+			<id>jocelyn.girard</id>
+			<name>Jocelyn Girard</name>
+			<email>jocelyn@smartnsoft.com</email>
+			<organization><![CDATA[Smart&Soft]]></organization>
+			<organizationUrl>http://www.smartnsoft.com</organizationUrl>
+			<roles>
+				<role>developer</role>
+			</roles>
+	    </developer>
 	</developers>
 
 	<licenses>

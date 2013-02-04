@@ -8,53 +8,17 @@
 
   <groupId>com.smartnsoft</groupId>
   <artifactId>smartactionbarsherlock</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>4.2.0</version>
   <packaging>apklib</packaging>
   <name>SmartActionBarSherlock</name>
   <description>The droid4mized ActionBarSherlock</description>
   
   <parent>
     <groupId>com.smartnsoft</groupId>
-    <artifactId>distribution</artifactId>
+    <artifactId>distribution-thirdparty</artifactId>
     <version>1.0</version>
   </parent>
 
-  <licenses>
-    <license>
-      <name>LGPL v3</name>
-      <url>http://www.gnu.org/licenses/lgpl.html</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
-
-  <developers>
-    <developer>
-      <id>jake.wharton</id>
-      <name>Jake Wharton</name>
-      <email>jakewharton@gmail.com</email>
-      <roles>
-        <role>architect</role>
-        <role>developer</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>jocelyn.girard</id>
-      <name>Jocelyn Girard</name>
-      <email>jocelyn@smartnsoft.com</email>
-      <organization><![CDATA[Smart&Soft]]></organization>
-      <organizationUrl>http://www.smartnsoft.com</organizationUrl>
-      <roles>
-        <role>developer</role>
-      </roles>
-    </developer>
-  </developers>
-
-  <scm>
-    <connection>scm:git:https://github.com/smartnsoft/SmartActionBarSherlock.git</connection>
-    <developerConnection>scm:git:git@github.com:smartnsoft/SmartActionBarSherlock.git</developerConnection>
-    <tag>HEAD</tag>
-  </scm>
-  
   <dependencies>
     <dependency>
       <groupId>android</groupId>
@@ -76,7 +40,6 @@
 
   <build>
     <sourceDirectory>src</sourceDirectory>
-
     <plugins>
       <plugin>
         <groupId>com.jayway.maven.plugins.android.generation2</groupId>
