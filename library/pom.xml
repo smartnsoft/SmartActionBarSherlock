@@ -15,7 +15,7 @@
   
   <parent>
     <groupId>com.smartnsoft</groupId>
-    <artifactId>distribution-thirdparty</artifactId>
+    <artifactId>distribution</artifactId>
     <version>1.0</version>
   </parent>
 
