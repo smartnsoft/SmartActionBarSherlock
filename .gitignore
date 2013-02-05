@@ -4,8 +4,7 @@ gen
 lint.xml
 
 #Eclipse
-.project
-.classpath
+.metadata
 .settings
 .checkstyle
 
@@ -21,13 +20,6 @@ gen-external-apklibs
 target
 release.properties
 pom.xml.*
-
-#Ant
-build.xml
-ant.properties
-local.properties
-proguard.cfg
-proguard-project.txt
 
 #Other
 .DS_Store
