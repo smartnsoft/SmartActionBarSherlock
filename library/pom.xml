@@ -9,7 +9,7 @@
 
   <groupId>com.smartnsoft</groupId>
   <artifactId>smartactionbarsherlock</artifactId>
-  <version>4.2.2</version>
+  <version>4.2.3</version>
   <packaging>apklib</packaging>
   <name>SmartActionBarSherlock</name>
   <description>The droid4mized ActionBarSherlock</description>

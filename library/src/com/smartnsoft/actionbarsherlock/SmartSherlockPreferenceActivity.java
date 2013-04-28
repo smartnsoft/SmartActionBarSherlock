@@ -1,326 +1,270 @@
 package com.smartnsoft.actionbarsherlock;
 
-import android.content.res.Configuration;
-import android.os.Bundle;
-import android.view.KeyEvent;
-import android.view.View;
-import android.view.ViewGroup.LayoutParams;
-import android.view.Window;
+import java.util.List;
 
-import com.actionbarsherlock.ActionBarSherlock;
-import com.actionbarsherlock.ActionBarSherlock.OnActionModeFinishedListener;
-import com.actionbarsherlock.ActionBarSherlock.OnActionModeStartedListener;
-import com.actionbarsherlock.ActionBarSherlock.OnCreatePanelMenuListener;
-import com.actionbarsherlock.ActionBarSherlock.OnMenuItemSelectedListener;
-import com.actionbarsherlock.ActionBarSherlock.OnPreparePanelListener;
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.view.ActionMode;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
-import com.smartnsoft.droid4me.app.SmartPreferenceActivity;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.MenuItem;
+
+import com.actionbarsherlock.app.SherlockPreferenceActivity;
+import com.smartnsoft.droid4me.app.AppPublics.BroadcastListener;
+import com.smartnsoft.droid4me.app.Droid4mizer;
+import com.smartnsoft.droid4me.app.SmartableActivity;
+import com.smartnsoft.droid4me.framework.ActivityResultHandler.CompositeHandler;
+import com.smartnsoft.droid4me.menu.MenuHandler.Composite;
+import com.smartnsoft.droid4me.menu.StaticMenuCommand;
 
 /**
  * @author Jocelyn Girard
  * @since 2013.02.04
  */
-public abstract class SmartSherlockPreferenceActivity<T>
-    extends SmartPreferenceActivity<T>
-    implements OnCreatePanelMenuListener, OnPreparePanelListener, OnMenuItemSelectedListener, OnActionModeStartedListener, OnActionModeFinishedListener
+public abstract class SmartSherlockPreferenceActivity<AggregateClass>
+    extends SherlockPreferenceActivity
+    implements SmartableActivity<AggregateClass>
 {
-  private ActionBarSherlock mSherlock;
 
-  protected final ActionBarSherlock getSherlock()
+  private final Droid4mizer<AggregateClass, SmartSherlockPreferenceActivity<AggregateClass>> droid4mizer = new Droid4mizer<AggregateClass, SmartSherlockPreferenceActivity<AggregateClass>>(this, this, this, null);
+
+  @Override
+  public Object getSystemService(String name)
   {
-    if (mSherlock == null)
+    return droid4mizer.getSystemService(name, super.getSystemService(name));
+  }
+
+  @Override
+  protected void onCreate(final Bundle savedInstanceState)
+  {
+    droid4mizer.onCreate(new Runnable()
     {
-      mSherlock = ActionBarSherlock.wrap(this, ActionBarSherlock.FLAG_DELEGATE);
-    }
-    return mSherlock;
-  }
-
-  // /////////////////////////////////////////////////////////////////////////
-  // Action bar and mode
-  // /////////////////////////////////////////////////////////////////////////
-
-  public ActionBar getSupportActionBar()
-  {
-    return getSherlock().getActionBar();
-  }
-
-  public ActionMode startActionMode(ActionMode.Callback callback)
-  {
-    return getSherlock().startActionMode(callback);
+      public void run()
+      {
+        SmartSherlockPreferenceActivity.super.onCreate(savedInstanceState);
+      }
+    }, savedInstanceState);
   }
 
   @Override
-  public void onActionModeStarted(ActionMode mode)
+  protected void onNewIntent(Intent intent)
   {
+    super.onNewIntent(intent);
+    droid4mizer.onNewIntent(intent);
   }
 
   @Override
-  public void onActionModeFinished(ActionMode mode)
+  public void onContentChanged()
   {
-  }
-
-  // /////////////////////////////////////////////////////////////////////////
-  // General lifecycle/callback dispatching
-  // /////////////////////////////////////////////////////////////////////////
-
-  @Override
-  public void onConfigurationChanged(Configuration newConfig)
-  {
-    super.onConfigurationChanged(newConfig);
-    getSherlock().dispatchConfigurationChanged(newConfig);
+    super.onContentChanged();
+    droid4mizer.onContentChanged();
   }
 
   @Override
-  protected void onPostResume()
+  protected void onResume()
   {
-    super.onPostResume();
-    getSherlock().dispatchPostResume();
-  }
-
-  @Override
-  protected void onPause()
-  {
-    getSherlock().dispatchPause();
-    super.onPause();
-  }
-
-  @Override
-  protected void onStop()
-  {
-    getSherlock().dispatchStop();
-    super.onStop();
-  }
-
-  @Override
-  protected void onDestroy()
-  {
-    getSherlock().dispatchDestroy();
-    super.onDestroy();
-  }
-
-  @Override
-  protected void onPostCreate(Bundle savedInstanceState)
-  {
-    getSherlock().dispatchPostCreate(savedInstanceState);
-    super.onPostCreate(savedInstanceState);
-  }
-
-  @Override
-  protected void onTitleChanged(CharSequence title, int color)
-  {
-    getSherlock().dispatchTitleChanged(title, color);
-    super.onTitleChanged(title, color);
-  }
-
-  @Override
-  public final boolean onMenuOpened(int featureId, android.view.Menu menu)
-  {
-    if (getSherlock().dispatchMenuOpened(featureId, menu))
-    {
-      return true;
-    }
-    return super.onMenuOpened(featureId, menu);
-  }
-
-  @Override
-  public void onPanelClosed(int featureId, android.view.Menu menu)
-  {
-    getSherlock().dispatchPanelClosed(featureId, menu);
-    super.onPanelClosed(featureId, menu);
-  }
-
-  @Override
-  public boolean dispatchKeyEvent(KeyEvent event)
-  {
-    if (getSherlock().dispatchKeyEvent(event))
-    {
-      return true;
-    }
-    return super.dispatchKeyEvent(event);
+    super.onResume();
+    droid4mizer.onResume();
   }
 
   @Override
   protected void onSaveInstanceState(Bundle outState)
   {
     super.onSaveInstanceState(outState);
-    getSherlock().dispatchSaveInstanceState(outState);
+    droid4mizer.onSaveInstanceState(outState);
   }
 
   @Override
-  protected void onRestoreInstanceState(Bundle savedInstanceState)
+  protected void onStart()
   {
-    super.onRestoreInstanceState(savedInstanceState);
-    getSherlock().dispatchRestoreInstanceState(savedInstanceState);
-  }
-
-  // /////////////////////////////////////////////////////////////////////////
-  // Native menu handling
-  // /////////////////////////////////////////////////////////////////////////
-
-  public MenuInflater getSupportMenuInflater()
-  {
-    return getSherlock().getMenuInflater();
+    super.onStart();
+    droid4mizer.onStart();
   }
 
   @Override
-  public void invalidateOptionsMenu()
+  protected void onPause()
   {
-    getSherlock().dispatchInvalidateOptionsMenu();
-  }
-
-  public void supportInvalidateOptionsMenu()
-  {
-    getSherlock().dispatchInvalidateOptionsMenu();
-  }
-
-  @Override
-  public final boolean onCreateOptionsMenu(android.view.Menu menu)
-  {
-    return getSherlock().dispatchCreateOptionsMenu(menu);
-  }
-
-  @Override
-  public final boolean onPrepareOptionsMenu(android.view.Menu menu)
-  {
-    return getSherlock().dispatchPrepareOptionsMenu(menu);
-  }
-
-  @Override
-  public final boolean onOptionsItemSelected(android.view.MenuItem item)
-  {
-    return getSherlock().dispatchOptionsItemSelected(item);
-  }
-
-  @Override
-  public void openOptionsMenu()
-  {
-    if (!getSherlock().dispatchOpenOptionsMenu())
+    try
     {
-      super.openOptionsMenu();
+      droid4mizer.onPause();
+    }
+    finally
+    {
+      super.onPause();
     }
   }
 
   @Override
-  public void closeOptionsMenu()
+  protected void onStop()
   {
-    if (!getSherlock().dispatchCloseOptionsMenu())
+    try
     {
-      super.closeOptionsMenu();
+      droid4mizer.onStop();
+    }
+    finally
+    {
+      super.onStop();
     }
   }
 
-  // /////////////////////////////////////////////////////////////////////////
-  // Sherlock menu handling
-  // /////////////////////////////////////////////////////////////////////////
-
   @Override
-  public boolean onCreatePanelMenu(int featureId, Menu menu)
+  protected void onDestroy()
   {
-    if (featureId == Window.FEATURE_OPTIONS_PANEL)
+    try
     {
-      return onCreateOptionsMenu(menu);
+      droid4mizer.onDestroy();
     }
-    return false;
-  }
-
-  public boolean onCreateOptionsMenu(Menu menu)
-  {
-    return true;
-  }
-
-  @Override
-  public boolean onPreparePanel(int featureId, View view, Menu menu)
-  {
-    if (featureId == Window.FEATURE_OPTIONS_PANEL)
+    finally
     {
-      return onPrepareOptionsMenu(menu);
+      super.onDestroy();
     }
-    return false;
   }
 
-  public boolean onPrepareOptionsMenu(Menu menu)
+  // @Override
+  // public boolean onCreateOptionsMenu(Menu menu)
+  // {
+  // // Taken from http://www.londatiga.net/it/android-coding-tips-how-to-create-options-menu-on-child-activity-inside-an-activitygroup/
+  // return droid4mizer.onCreateOptionsMenu(getParent() == null ? super.onCreateOptionsMenu(menu) : true, menu);
+  // }
+  //
+  // @Override
+  // public boolean onPrepareOptionsMenu(Menu menu)
+  // {
+  // return droid4mizer.onPrepareOptionsMenu(getParent() == null ? super.onPrepareOptionsMenu(menu) : true, menu);
+  // }
+  //
+  // @Override
+  // public boolean onOptionsItemSelected(MenuItem item)
+  // {
+  // return droid4mizer.onOptionsItemSelected(getParent() == null ? super.onOptionsItemSelected(item) : true, item);
+  // }
+
+  @Override
+  public boolean onContextItemSelected(MenuItem item)
   {
-    return true;
+    return droid4mizer.onContextItemSelected(getParent() == null ? super.onContextItemSelected(item) : true, item);
   }
 
   @Override
-  public boolean onMenuItemSelected(int featureId, MenuItem item)
+  protected void onActivityResult(int requestCode, int resultCode, Intent data)
   {
-    if (featureId == Window.FEATURE_OPTIONS_PANEL)
-    {
-      return onOptionsItemSelected(item);
-    }
-    return false;
+    super.onActivityResult(requestCode, resultCode, data);
+    droid4mizer.onActivityResult(requestCode, resultCode, data);
   }
 
-  public boolean onOptionsItemSelected(MenuItem item)
+  /**
+   * SmartableActivity implementation.
+   */
+
+  public final void setHomeIntent(Intent intent)
   {
-    return false;
+    droid4mizer.setHomeIntent(intent);
   }
 
-  // /////////////////////////////////////////////////////////////////////////
-  // Content
-  // /////////////////////////////////////////////////////////////////////////
+  /**
+   * Smartable implementation.
+   */
 
-  @Override
-  public void addContentView(View view, LayoutParams params)
+  public AggregateClass getAggregate()
   {
-    getSherlock().addContentView(view, params);
+    return droid4mizer.getAggregate();
   }
 
-  @Override
-  public void setContentView(int layoutResId)
+  public void setAggregate(AggregateClass aggregate)
   {
-    getSherlock().setContentView(layoutResId);
+    droid4mizer.setAggregate(aggregate);
   }
 
-  @Override
-  public void setContentView(View view, LayoutParams params)
+  public Handler getHandler()
   {
-    getSherlock().setContentView(view, params);
+    return droid4mizer.getHandler();
   }
 
-  @Override
-  public void setContentView(View view)
+  public SharedPreferences getPreferences()
   {
-    getSherlock().setContentView(view);
+    return droid4mizer.getPreferences();
   }
 
-  public void requestWindowFeature(long featureId)
+  public void onException(Throwable throwable, boolean fromGuiThread)
   {
-    getSherlock().requestFeature((int) featureId);
+    droid4mizer.onException(throwable, fromGuiThread);
   }
 
-  // /////////////////////////////////////////////////////////////////////////
-  // Progress Indication
-  // /////////////////////////////////////////////////////////////////////////
-
-  public void setSupportProgress(int progress)
+  public void registerBroadcastListeners(BroadcastListener[] broadcastListeners)
   {
-    getSherlock().setProgress(progress);
+    droid4mizer.registerBroadcastListeners(broadcastListeners);
   }
 
-  public void setSupportProgressBarIndeterminate(boolean indeterminate)
+  public void onBusinessObjectsRetrieved()
   {
-    getSherlock().setProgressBarIndeterminate(indeterminate);
+    droid4mizer.onBusinessObjectsRetrieved();
   }
 
-  public void setSupportProgressBarIndeterminateVisibility(boolean visible)
+  public int getOnSynchronizeDisplayObjectsCount()
   {
-    getSherlock().setProgressBarIndeterminateVisibility(visible);
+    return droid4mizer.getOnSynchronizeDisplayObjectsCount();
   }
 
-  public void setSupportProgressBarVisibility(boolean visible)
+  public boolean isRefreshingBusinessObjectsAndDisplay()
   {
-    getSherlock().setProgressBarVisibility(visible);
+    return droid4mizer.isRefreshingBusinessObjectsAndDisplay();
   }
 
-  public void setSupportSecondaryProgress(int secondaryProgress)
+  public boolean isFirstLifeCycle()
   {
-    getSherlock().setSecondaryProgress(secondaryProgress);
+    return droid4mizer.isFirstLifeCycle();
   }
+
+  public final boolean isInteracting()
+  {
+    return droid4mizer.isInteracting();
+  }
+
+  public final boolean isAlive()
+  {
+    return droid4mizer.isAlive();
+  }
+
+  public final void refreshBusinessObjectsAndDisplay(boolean retrieveBusinessObjects, final Runnable onOver, boolean immediately)
+  {
+    droid4mizer.refreshBusinessObjectsAndDisplay(retrieveBusinessObjects, onOver, immediately);
+  }
+
+  /**
+   * AppInternals.LifeCycleInternals implementation.
+   */
+
+  public boolean shouldKeepOn()
+  {
+    return droid4mizer.shouldKeepOn();
+  }
+
+  public Composite getCompositeActionHandler()
+  {
+    return droid4mizer.getCompositeActionHandler();
+  }
+
+  public CompositeHandler getCompositeActivityResultHandler()
+  {
+    return droid4mizer.getCompositeActivityResultHandler();
+  }
+
+  /**
+   * Own implementation.
+   */
+
+  /**
+   * Same as invoking {@link #refreshBusinessObjectsAndDisplay(true, null, false)}.
+   * 
+   * @see #refreshBusinessObjectsAndDisplay(boolean, Runnable, boolean)
+   */
+  public final void refreshBusinessObjectsAndDisplay()
+  {
+    refreshBusinessObjectsAndDisplay(true, null, false);
+  }
+
+  public List<StaticMenuCommand> getMenuCommands()
+  {
+    return null;
+  };
+
 }
