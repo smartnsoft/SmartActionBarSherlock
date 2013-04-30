@@ -177,11 +177,6 @@ public abstract class SmartSherlockFragment<AggregrateClass>
     droid4mizer.registerBroadcastListeners(broadcastListeners);
   }
 
-  public void onBusinessObjectsRetrieved()
-  {
-    droid4mizer.onBusinessObjectsRetrieved();
-  }
-
   public int getOnSynchronizeDisplayObjectsCount()
   {
     return droid4mizer.getOnSynchronizeDisplayObjectsCount();
@@ -235,6 +230,15 @@ public abstract class SmartSherlockFragment<AggregrateClass>
    * Own implementation.
    */
 
+  public void onBusinessObjectsRetrieved()
+  {
+  }
+
+  public List<StaticMenuCommand> getMenuCommands()
+  {
+    return null;
+  }
+
   /**
    * Same as invoking {@link #refreshBusinessObjectsAndDisplay(true, null, false)}.
    * 
@@ -243,11 +247,6 @@ public abstract class SmartSherlockFragment<AggregrateClass>
   public final void refreshBusinessObjectsAndDisplay()
   {
     refreshBusinessObjectsAndDisplay(true, null, false);
-  }
-
-  public List<StaticMenuCommand> getMenuCommands()
-  {
-    return null;
   }
 
   /**
