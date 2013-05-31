@@ -155,11 +155,6 @@ public abstract class SmartSherlockPreferenceActivity<AggregateClass>
    * SmartableActivity implementation.
    */
 
-  public final void setHomeIntent(Intent intent)
-  {
-    droid4mizer.setHomeIntent(intent);
-  }
-
   /**
    * Smartable implementation.
    */
