@@ -20,6 +20,10 @@
     <version>1.0</version>
   </parent>
 
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
   <developers>
     <developer>
       <id>edouard.mercier</id>
